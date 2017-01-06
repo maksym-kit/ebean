@@ -2,20 +2,20 @@ package org.tests.model.json;
 
 import io.ebean.annotation.DbJson;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Entity
-public class EBasicJsonMap {
+public class EBasicJsonMapDetail {
 
   @Id
   Long id;
+
+  @ManyToOne
+  EBasicJsonMap owner;
 
   @Version
   Long version;
@@ -25,8 +25,9 @@ public class EBasicJsonMap {
   @DbJson
   Map<String, Object> content;
 
-  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-  List<EBasicJsonMapDetail> details = new ArrayList<>();
+  public EBasicJsonMapDetail(String name) {
+    this.name = name;
+  }
 
   public Long getId() {
     return id;
@@ -44,12 +45,12 @@ public class EBasicJsonMap {
     this.version = version;
   }
 
-  public List<EBasicJsonMapDetail> getDetails() {
-    return details;
+  public EBasicJsonMap getOwner() {
+    return owner;
   }
 
-  public void setDetails(List<EBasicJsonMapDetail> details) {
-    this.details = details;
+  public void setOwner(EBasicJsonMap owner) {
+    this.owner = owner;
   }
 
   public String getName() {
